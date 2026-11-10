@@ -1,0 +1,746 @@
+{
+  "version": 1,
+  "source": {
+    "name": "CK-Skills",
+    "repository": "https://github.com/zhaji2333/CkSKILLS",
+    "commit": "ffd042b5d7b67295e71eda8f377f397a00092f9d",
+    "license": "MIT",
+    "integration": "Adapted and constrained for the local guarded SRC workflow"
+  },
+  "routes": [
+    {
+      "id": "hunt-clueboard",
+      "name": "Cross-session hunt clueboard",
+      "phase": "always",
+      "triggers": [
+        "clueboard",
+        "线索板",
+        "continue",
+        "resume",
+        "new target",
+        "换会话",
+        "继续挖",
+        "negative evidence",
+        "证伪"
+      ],
+      "playbook_classes": [],
+      "tools": [
+        "src_clueboard"
+      ],
+      "batch_approval_required": false,
+      "outputs": [
+        "current focus",
+        "hypotheses",
+        "host and path map",
+        "negative evidence",
+        "coverage matrix"
+      ],
+      "gates": [
+        "Read before active testing",
+        "Write durable leads and negative evidence back in the same turn",
+        "Do not store real user data or full secrets"
+      ]
+    },
+    {
+      "id": "recon-js-analysis",
+      "name": "JS-first attack-surface mapping",
+      "phase": "recon",
+      "triggers": [
+        "js",
+        "javascript",
+        "webpack",
+        "source map",
+        "sourcemap",
+        "chunk",
+        "api inventory",
+        "hidden endpoint",
+        "app.js",
+        "接口",
+        "前端",
+        "攻击面"
+      ],
+      "playbook_classes": [
+        "information_disclosure",
+        "graphql",
+        "websocket"
+      ],
+      "tools": [
+        "src_js_inventory",
+        "src_import_har",
+        "src_http"
+      ],
+      "batch_approval_required": true,
+      "outputs": [
+        "endpoint inventory",
+        "parameter inventory",
+        "auth flow hints",
+        "source map findings",
+        "scope-marked asset leads"
+      ],
+      "gates": [
+        "Only same-origin or explicitly in-scope assets",
+        "Treat newly discovered hosts as leads until scope is confirmed",
+        "Do not call front-end encryption authentication"
+      ]
+    },
+    {
+      "id": "unauth-path-key-hunt",
+      "name": "Anonymous path and key boundary analysis",
+      "phase": "recon",
+      "triggers": [
+        "unauthenticated",
+        "anonymous",
+        "zero identity",
+        "zero-identity",
+        "rsa",
+        "jsencrypt",
+        "getrsa",
+        "public key",
+        "grant",
+        "anonymous route",
+        "未授权",
+        "零身份",
+        "前端加密"
+      ],
+      "playbook_classes": [
+        "information_disclosure",
+        "auth_bypass"
+      ],
+      "tools": [
+        "src_asset_intel",
+        "src_path_probe",
+        "src_http"
+      ],
+      "batch_approval_required": true,
+      "outputs": [
+        "host classification",
+        "response fingerprint",
+        "control-path proof",
+        "encryption-versus-auth conclusion"
+      ],
+      "gates": [
+        "No wordlist brute force",
+        "Use only paths with a public or approved source",
+        "A public encryption key or client-side encryption is not authorization",
+        "Stop at metadata-only proof"
+      ]
+    },
+    {
+      "id": "auth-access-control",
+      "name": "Authentication and authorization boundary testing",
+      "phase": "validation",
+      "triggers": [
+        "login",
+        "logout",
+        "session",
+        "jwt",
+        "oauth",
+        "sso",
+        "mfa",
+        "2fa",
+        "captcha",
+        "password reset",
+        "role",
+        "admin",
+        "idor",
+        "bola",
+        "tenant",
+        "authorization",
+        "route guard",
+        "front-end auth",
+        "localstorage",
+        "isadmin",
+        "越权",
+        "登录",
+        "会话",
+        "验证码",
+        "租户"
+      ],
+      "playbook_classes": [
+        "auth_bypass",
+        "auth_session",
+        "oauth_jwt",
+        "idor_bola",
+        "tenant_isolation"
+      ],
+      "tools": [
+        "src_vuln_playbook",
+        "src_http"
+      ],
+      "batch_approval_required": true,
+      "outputs": [
+        "identity matrix",
+        "owner/non-owner comparison",
+        "server-side boundary result"
+      ],
+      "gates": [
+        "Use approved test identities and test objects",
+        "No credential guessing, spraying, or MFA bypass on real accounts",
+        "A front-end route bypass is only a candidate until the backend boundary is proven",
+        "Stop before reading real user data"
+      ]
+    },
+    {
+      "id": "api-protocol-security",
+      "name": "API and protocol testing",
+      "phase": "validation",
+      "triggers": [
+        "api",
+        "rest",
+        "graphql",
+        "grpc",
+        "websocket",
+        "swagger",
+        "openapi",
+        "method",
+        "json",
+        "bola",
+        "batch endpoint",
+        "接口"
+      ],
+      "playbook_classes": [
+        "graphql",
+        "websocket",
+        "idor_bola",
+        "http_request_smuggling"
+      ],
+      "tools": [
+        "src_import_har",
+        "src_http",
+        "src_vuln_playbook"
+      ],
+      "batch_approval_required": true,
+      "outputs": [
+        "endpoint matrix",
+        "method and parameter matrix",
+        "object authorization result"
+      ],
+      "gates": [
+        "Test one method or field per hypothesis",
+        "Do not run expensive or deep queries",
+        "Request smuggling only in a lab or explicitly approved environment"
+      ]
+    },
+    {
+      "id": "injection-vulns",
+      "name": "Injection family testing",
+      "phase": "validation",
+      "triggers": [
+        "injection",
+        "sqli",
+        "sql",
+        "nosql",
+        "command",
+        "ssti",
+        "template",
+        "expression",
+        "注入"
+      ],
+      "playbook_classes": [
+        "sql_injection",
+        "nosql_injection",
+        "ssti",
+        "command_injection"
+      ],
+      "tools": [
+        "src_vuln_playbook",
+        "src_http"
+      ],
+      "batch_approval_required": true,
+      "outputs": [
+        "baseline and one-variable comparison",
+        "deterministic server-side signal",
+        "falsification record"
+      ],
+      "gates": [
+        "No data dumping, file reads, command execution, stacked payloads, or high-volume automation",
+        "A generic error is not confirmation",
+        "Stop at the smallest deterministic signal"
+      ]
+    },
+    {
+      "id": "business-logic-race",
+      "name": "Business workflow and race analysis",
+      "phase": "validation",
+      "triggers": [
+        "business logic",
+        "workflow",
+        "price",
+        "coupon",
+        "order",
+        "refund",
+        "approval",
+        "invite",
+        "quota",
+        "race",
+        "concurrent",
+        "业务逻辑",
+        "竞态",
+        "订单",
+        "支付"
+      ],
+      "playbook_classes": [
+        "business_logic",
+        "race_condition"
+      ],
+      "tools": [
+        "src_vuln_playbook",
+        "src_http"
+      ],
+      "batch_approval_required": true,
+      "outputs": [
+        "state machine",
+        "role matrix",
+        "one invariant violation",
+        "expected versus actual state"
+      ],
+      "gates": [
+        "Use synthetic products, balances, coupons, and test tenants",
+        "No real money or real users",
+        "Race tests are limited to 2-3 controlled requests and require explicit approval"
+      ]
+    },
+    {
+      "id": "file-handling",
+      "name": "File upload, download, and parser testing",
+      "phase": "validation",
+      "triggers": [
+        "upload",
+        "download",
+        "import",
+        "export",
+        "archive",
+        "zip",
+        "path traversal",
+        "file read",
+        "avatar",
+        "attachment",
+        "文件",
+        "上传",
+        "下载",
+        "导入"
+      ],
+      "playbook_classes": [
+        "file_upload",
+        "path_traversal"
+      ],
+      "tools": [
+        "src_vuln_playbook",
+        "src_http"
+      ],
+      "batch_approval_required": true,
+      "outputs": [
+        "synthetic file proof",
+        "storage/parser behavior",
+        "controlled traversal result"
+      ],
+      "gates": [
+        "Never upload a webshell or executable payload",
+        "Use synthetic markers",
+        "Do not read a real system or user file"
+      ]
+    },
+    {
+      "id": "ssrf-internal-network",
+      "name": "Server-side request testing",
+      "phase": "validation",
+      "triggers": [
+        "ssrf",
+        "url fetch",
+        "webhook",
+        "redirect",
+        "import url",
+        "callback",
+        "metadata",
+        "内部网络",
+        "回调"
+      ],
+      "playbook_classes": [
+        "ssrf",
+        "open_redirect"
+      ],
+      "tools": [
+        "src_vuln_playbook",
+        "src_http"
+      ],
+      "batch_approval_required": true,
+      "outputs": [
+        "controlled callback correlation",
+        "server-side versus client-side distinction",
+        "stop boundary"
+      ],
+      "gates": [
+        "Use a program-approved callback endpoint",
+        "Do not probe internal IP ranges or cloud metadata",
+        "Stop after callback correlation or the minimum approved proof"
+      ]
+    },
+    {
+      "id": "deserialization-xxe",
+      "name": "Deserialization and XML parser testing",
+      "phase": "validation",
+      "triggers": [
+        "deserialize",
+        "deserialization",
+        "xxe",
+        "xml",
+        "parser",
+        "prototype pollution",
+        "serialized",
+        "反序列化"
+      ],
+      "playbook_classes": [
+        "deserialization"
+      ],
+      "tools": [
+        "src_vuln_playbook",
+        "src_http"
+      ],
+      "batch_approval_required": true,
+      "outputs": [
+        "parser boundary proof",
+        "inert marker result",
+        "stop decision"
+      ],
+      "gates": [
+        "Use harmless markers only",
+        "No gadget chains, shells, file writes, or persistence",
+        "Stop when the parser path is proven"
+      ]
+    },
+    {
+      "id": "xss-frontend-security",
+      "name": "Client-side and browser boundary testing",
+      "phase": "validation",
+      "triggers": [
+        "xss",
+        "csrf",
+        "cors",
+        "open redirect",
+        "clickjacking",
+        "websocket",
+        "浏览器",
+        "跨站"
+      ],
+      "playbook_classes": [
+        "xss",
+        "csrf",
+        "cors",
+        "open_redirect",
+        "websocket"
+      ],
+      "tools": [
+        "src_vuln_playbook",
+        "src_http"
+      ],
+      "batch_approval_required": true,
+      "outputs": [
+        "execution-context proof",
+        "authenticated-data readability",
+        "trust-boundary impact"
+      ],
+      "gates": [
+        "A reflection is not XSS",
+        "A CORS header alone is not a finding",
+        "Use harmless markers and self-owned test actions",
+        "Do not use alert on production"
+      ]
+    },
+    {
+      "id": "cloud-infra-supply-chain",
+      "name": "Cloud and public exposure review",
+      "phase": "triage",
+      "triggers": [
+        "cloud",
+        "bucket",
+        "oss",
+        "s3",
+        "storage",
+        "actuator",
+        "debug",
+        "metrics",
+        "source map",
+        "secret",
+        "云",
+        "存储",
+        "泄露"
+      ],
+      "playbook_classes": [
+        "cloud_storage",
+        "information_disclosure"
+      ],
+      "tools": [
+        "src_asset_intel",
+        "src_http"
+      ],
+      "batch_approval_required": true,
+      "outputs": [
+        "public/private boundary proof",
+        "sensitivity classification",
+        "minimal evidence"
+      ],
+      "gates": [
+        "Do not list buckets or download production data",
+        "Secrets alone need a concrete impact chain",
+        "Prefer passive inspection"
+      ]
+    },
+    {
+      "id": "ai-llm-agent-security",
+      "name": "LLM and agent boundary testing",
+      "phase": "validation",
+      "triggers": [
+        "llm",
+        "prompt injection",
+        "chatbot",
+        "rag",
+        "agent",
+        "tool call",
+        "copilot",
+        "提示词注入",
+        "智能体"
+      ],
+      "playbook_classes": [
+        "llm_prompt_injection"
+      ],
+      "tools": [
+        "src_vuln_playbook",
+        "src_http"
+      ],
+      "batch_approval_required": true,
+      "outputs": [
+        "instruction-boundary proof",
+        "tool boundary result",
+        "inert marker evidence"
+      ],
+      "gates": [
+        "Use synthetic documents and test accounts",
+        "No payment, deletion, messaging, or external side effects",
+        "Do not exfiltrate real secrets"
+      ]
+    },
+    {
+      "id": "waf-bypass-techniques",
+      "name": "Blocked-signal escalation",
+      "phase": "escalation",
+      "triggers": [
+        "waf",
+        "blocked",
+        "403",
+        "429",
+        "payload blocked",
+        "bypass",
+        "绕过",
+        "被拦截"
+      ],
+      "playbook_classes": [],
+      "tools": [
+        "src_vuln_playbook"
+      ],
+      "batch_approval_required": true,
+      "outputs": [
+        "blocked-layer classification",
+        "one minimal next hypothesis",
+        "stop or approval decision"
+      ],
+      "gates": [
+        "Do not automate evasion or rate-limit bypass",
+        "No payload floods",
+        "Return to the original vulnerability class before escalating",
+        "Escalation beyond two benign variants requires explicit approval"
+      ]
+    },
+    {
+      "id": "report",
+      "name": "Evidence-gated report closeout",
+      "phase": "report",
+      "triggers": [
+        "report",
+        "write-up",
+        "submission",
+        "报告",
+        "成稿",
+        "提交"
+      ],
+      "playbook_classes": [],
+      "tools": [
+        "src_validate_finding",
+        "src_render_report"
+      ],
+      "batch_approval_required": false,
+      "outputs": [
+        "validated finding",
+        "reproduction steps",
+        "impact statement",
+        "fixed-format report draft"
+      ],
+      "gates": [
+        "No PoC means no report",
+        "Falsify normal behavior first",
+        "Evidence must come from actual executed requests",
+        "No real user data",
+        "Human review before submission"
+      ]
+    },
+    {
+      "id": "mobile-package-manual",
+      "name": "APK and mobile package workflow",
+      "phase": "manual_only",
+      "triggers": [
+        "apk",
+        "android",
+        "ipa",
+        "miniprogram",
+        "小程序",
+        "mobile package",
+        "逆向"
+      ],
+      "playbook_classes": [],
+      "tools": [],
+      "batch_approval_required": true,
+      "outputs": [
+        "manual handoff only"
+      ],
+      "gates": [
+        "Not automated by this black-box Web/API workflow",
+        "Requires a separately reviewed mobile skill and explicit authorization"
+      ]
+    },
+    {
+      "id": "source-windows-manual",
+      "name": "Source and binary reverse engineering",
+      "phase": "manual_only",
+      "triggers": [
+        "source code audit",
+        "windows",
+        "pe",
+        "reverse engineering",
+        "源码审计",
+        "逆向工程"
+      ],
+      "playbook_classes": [],
+      "tools": [],
+      "batch_approval_required": true,
+      "outputs": [
+        "manual handoff only"
+      ],
+      "gates": [
+        "Not automated by this black-box Web/API workflow",
+        "Requires a separate code-audit or reverse-engineering skill and explicit scope"
+      ]
+    },
+    {
+      "id": "agentic-workflow-security",
+      "name": "Agentic workflow, tool, and MCP boundary review",
+      "phase": "static_or_validation",
+      "triggers": [
+        "agent",
+        "agentic",
+        "mcp",
+        "multi-agent",
+        "rag",
+        "workflow",
+        "tool permissions",
+        "connector",
+        "prompt hardening",
+        "提示词注入",
+        "智能体"
+      ],
+      "playbook_classes": [
+        "agentic_workflow_security",
+        "llm_prompt_injection"
+      ],
+      "tools": [
+        "src_skill_audit",
+        "src_clueboard",
+        "src_vuln_playbook"
+      ],
+      "batch_approval_required": true,
+      "outputs": [
+        "workflow graph",
+        "tool inventory",
+        "MCP server inventory",
+        "trust boundaries",
+        "synthetic boundary tests"
+      ],
+      "gates": [
+        "Static inspection first",
+        "Use synthetic prompts and data",
+        "No external side effects",
+        "One tool or instruction boundary per test",
+        "Human review before treating a model behavior as a vulnerability"
+      ]
+    },
+    {
+      "id": "skill-supply-chain-audit",
+      "name": "Third-party Skill and plugin pre-install audit",
+      "phase": "static",
+      "triggers": [
+        "skill audit",
+        "skill security",
+        "plugin audit",
+        "third-party skill",
+        "mcp install",
+        "supply chain",
+        "技能审计",
+        "第三方skill",
+        "插件安全"
+      ],
+      "playbook_classes": [
+        "agentic_workflow_security"
+      ],
+      "tools": [
+        "src_skill_audit"
+      ],
+      "batch_approval_required": false,
+      "outputs": [
+        "static score",
+        "rule findings",
+        "risk summary",
+        "install decision"
+      ],
+      "gates": [
+        "Static audit is not certification",
+        "Inspect context and isolate before execution",
+        "Reject self-approval by the skill being audited",
+        "Review dynamic behavior separately"
+      ]
+    },
+    {
+      "id": "capability-radar",
+      "name": "Capability gap and external tool evaluation",
+      "phase": "planning",
+      "triggers": [
+        "capability",
+        "external tool",
+        "tool selection",
+        "install tool",
+        "platform",
+        "skill library",
+        "能力缺口",
+        "外部工具",
+        "工具选型"
+      ],
+      "playbook_classes": [],
+      "tools": [
+        "src_tool_status",
+        "src_skill_audit",
+        "src_install_tool"
+      ],
+      "batch_approval_required": true,
+      "outputs": [
+        "capability category",
+        "build-versus-buy decision",
+        "security evaluation",
+        "approval and isolation plan"
+      ],
+      "gates": [
+        "Prefer existing guarded capability",
+        "Do not auto-install third-party projects",
+        "Audit Skill or plugin source before execution",
+        "Require explicit installation approval",
+        "Compare scope control, audit logs, data residency, false-positive rate, and cost per valid finding"
+      ]
+    }
+  ]
+}

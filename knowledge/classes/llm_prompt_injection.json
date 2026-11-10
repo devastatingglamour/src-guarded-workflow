@@ -1,0 +1,13 @@
+{
+  "id": "llm_prompt_injection",
+  "name": "LLM prompt injection / tool abuse",
+  "aliases": ["LLM injection", "prompt injection", "AI agent", "tool call"],
+  "priority": "high",
+  "surfaces": ["chat input", "uploaded documents", "retrieval context", "tool output", "system prompt", "agent memory"],
+  "signals": ["model follows untrusted content over system rules", "tool invocation uses attacker-controlled arguments", "sensitive context is revealed", "agent performs an unintended action"],
+  "safe_tests": ["use test documents and a self-owned test account", "use inert markers rather than real secrets", "test one instruction boundary at a time", "do not trigger payment, deletion, messaging, or external side effects"],
+  "confirm": ["untrusted content changes behavior in a way that causes real impact", "tool action is attributable to the injected content", "no real user or production action is triggered"],
+  "false_positives": ["expected assistant refusal", "model hallucination without tool execution", "client-side display only", "content is intentionally trusted"],
+  "approval": "required",
+  "impact": ["data exfiltration", "tool misuse", "integrity", "account actions"]
+}

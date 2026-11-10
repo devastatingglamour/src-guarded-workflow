@@ -1,0 +1,13 @@
+{
+  "id": "information_disclosure",
+  "name": "Sensitive information disclosure",
+  "aliases": ["info leak", "debug endpoint", "source map", "stack trace", "secret"],
+  "priority": "medium",
+  "surfaces": ["public JS", "source maps", "debug pages", "backup files", "error pages", "logs", "API metadata"],
+  "signals": ["source code or internal routes exposed", "credentials or tokens in client assets", "stack traces reveal internals", "backup or admin files publicly reachable"],
+  "safe_tests": ["prefer passive inspection of public assets", "use one direct GET for a suspected public file", "do not download databases or user data", "store only a redacted excerpt"],
+  "confirm": ["information is sensitive and not intentionally public", "exposure has a concrete security impact", "evidence is minimal and redacted"],
+  "false_positives": ["intended open-source assets", "public documentation", "version banner only", "client-side route names without secrets"],
+  "approval": "conditional",
+  "impact": ["reconnaissance", "credential exposure", "further compromise"]
+}

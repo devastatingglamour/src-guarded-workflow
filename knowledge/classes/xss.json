@@ -1,0 +1,13 @@
+{
+  "id": "xss",
+  "name": "Cross-site scripting",
+  "aliases": ["XSS", "reflected XSS", "stored XSS", "DOM XSS"],
+  "priority": "high",
+  "surfaces": ["reflected parameters", "profile fields", "comments", "support tickets", "rich text", "SPA routes", "DOM sinks"],
+  "signals": ["input reflected in HTML or JavaScript context", "stored content appears without encoding", "DOM source reaches a sink", "CSP or sanitizer differs by context"],
+  "safe_tests": ["use a unique non-destructive marker", "use self-owned accounts for stored content", "prove execution with console output or a harmless visible marker", "do not target real users or use alert in production"],
+  "confirm": ["marker executes in the intended origin and context", "impact is reproducible from a normal user flow", "stored test content is isolated and cleaned up"],
+  "false_positives": ["encoded/inert reflection", "self-XSS only", "CSP blocks execution", "client-side sanitizer with no sink"],
+  "approval": "required",
+  "impact": ["session compromise", "account takeover", "data exposure"]
+}

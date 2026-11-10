@@ -1,0 +1,13 @@
+{
+  "id": "race_condition",
+  "name": "Race condition",
+  "aliases": ["TOCTOU", "concurrency", "double spend", "coupon race"],
+  "priority": "high",
+  "surfaces": ["coupon redemption", "balance", "vote", "invite", "order", "approval", "quota"],
+  "signals": ["same resource can be used twice", "parallel requests bypass a limit", "state check and state change are separate", "inconsistent final counts"],
+  "safe_tests": ["use only test accounts and test resources", "start with 2-3 requests, never a flood", "measure one invariant before and after", "stop if the service degrades or a real resource is affected"],
+  "confirm": ["controlled parallel requests violate a stated invariant", "result is repeatable and not a display glitch", "no real money or user data is involved"],
+  "false_positives": ["eventual consistency", "queued processing", "cached count", "expected retry behavior"],
+  "approval": "required",
+  "impact": ["financial loss", "integrity", "quota bypass"]
+}

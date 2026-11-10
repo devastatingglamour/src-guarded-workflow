@@ -1,0 +1,13 @@
+{
+  "id": "websocket",
+  "name": "WebSocket authorization",
+  "aliases": ["WebSocket", "socket.io", "subscription", "message channel"],
+  "priority": "medium",
+  "surfaces": ["handshake", "subscriptions", "room IDs", "message actions", "presence", "notifications"],
+  "signals": ["handshake auth differs from message auth", "room or object ID is client-controlled", "subscription leaks another test user's events", "origin check missing but impact unclear"],
+  "safe_tests": ["use two self-owned test accounts", "test one subscription or message action", "do not flood or spam real channels", "stop after one unauthorized test event"],
+  "confirm": ["a test user receives or changes another test user's channel data", "server-side authorization failure is stable", "no real user messages are read"],
+  "false_positives": ["public room", "broadcast intended for all", "client-side event filtering", "stale subscription"],
+  "approval": "required",
+  "impact": ["confidentiality", "integrity", "real-time data exposure"]
+}

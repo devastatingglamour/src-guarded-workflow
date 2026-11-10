@@ -1,0 +1,13 @@
+{
+  "id": "idor_bola",
+  "name": "IDOR / BOLA / object authorization",
+  "aliases": ["IDOR", "BOLA", "object level authorization", "horizontal privilege"],
+  "priority": "high",
+  "surfaces": ["path IDs", "JSON object IDs", "GraphQL node IDs", "export/download", "invoice and order IDs", "file IDs"],
+  "signals": ["one identifier returns another object", "same object shape across two test identities", "arbitrary object IDs accepted", "download/export bypasses UI"],
+  "safe_tests": ["create two approved test accounts and test objects", "capture one baseline per account", "change one object identifier and compare", "stop after one test object; do not enumerate IDs"],
+  "confirm": ["two identities prove the object belongs to another test account", "unauthorized object is returned or modified", "stable minimal retry and not public"],
+  "false_positives": ["public or shared object", "administrator role", "same test user in both requests", "front-end-only hiding"],
+  "approval": "required",
+  "impact": ["confidentiality", "integrity", "tenant boundary"]
+}

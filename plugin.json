@@ -1,0 +1,15 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "src-guarded-workflow",
+  "version": "0.7.2",
+  "description": "Authorized SRC black-box workflow with scope enforcement, expert routing, a Fact-Intent-Hint clueboard, Skill supply-chain auditing, local MCP tools, human approval gates, evidence validation, and portable report generation.",
+  "author": {
+    "name": "Local operator"
+  },
+  "license": "MIT",
+  "keywords": ["security", "bug-bounty", "src", "recon", "mcp"]
+}
+
+
+
+

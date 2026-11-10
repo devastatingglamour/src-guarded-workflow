@@ -1,0 +1,56 @@
+{
+  "id": "auth_bypass",
+  "name": "Authentication bypass",
+  "aliases": [
+    "auth",
+    "login bypass",
+    "default credentials",
+    "MFA bypass"
+  ],
+  "priority": "high",
+  "surfaces": [
+    "login",
+    "reset flow",
+    "MFA",
+    "captcha",
+    "admin entry",
+    "internal API",
+    "mobile API",
+    "front-end route guard",
+    "localStorage role state"
+  ],
+  "signals": [
+    "protected route reachable without normal auth",
+    "server API callable without the required role",
+    "role or account state changes unexpectedly",
+    "auth mechanisms disagree",
+    "front-end guard relies only on localStorage or hidden UI",
+    "error messages reveal account state"
+  ],
+  "safe_tests": [
+    "compare anonymous and approved test-account access",
+    "test one auth path at a time",
+    "check logout and token revocation",
+    "treat front-end route access as a candidate until the backend API is tested",
+    "use only approved test identities for role comparisons",
+    "never guess real credentials or brute force"
+  ],
+  "confirm": [
+    "reproducible with a test account or anonymous state",
+    "a protected action or data view is actually reached",
+    "stable after minimal retry"
+  ],
+  "false_positives": [
+    "public or intentionally shared endpoint",
+    "cached response",
+    "front-end route without server data",
+    "server enforces the missing authorization",
+    "legitimate role access"
+  ],
+  "approval": "required",
+  "impact": [
+    "confidentiality",
+    "integrity",
+    "account takeover"
+  ]
+}

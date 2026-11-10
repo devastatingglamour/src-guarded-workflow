@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "finding_id": "candidate-001",
+  "program": "example-src",
+  "title": "Replace with a specific, impact-oriented title",
+  "asset": "https://example.com/api/example",
+  "method": "GET",
+  "vulnerability_class": "authorization",
+  "status": "candidate",
+  "severity": "medium",
+  "confidence": "low",
+  "in_scope": true,
+  "human_verified": false,
+  "ai_generated": true,
+  "data_sensitivity": "test_account",
+  "real_user_data_approved": false,
+  "summary": "Describe the observed behavior and why it may be a defect.",
+  "preconditions": ["Use an approved test account with the standard role."],
+  "reproduction_steps": ["Replace with steps after actual validation."],
+  "evidence": [],
+  "impact": "State the concrete impact after validation.",
+  "remediation": "State the expected control or fix.",
+  "reviewer": {
+    "reviewer": "pending",
+    "status": "pending",
+    "notes": "No independent review yet."
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "business_logic",
+  "name": "Business logic flaw",
+  "aliases": ["logic", "workflow bypass", "price manipulation", "coupon", "approval"],
+  "priority": "high",
+  "surfaces": ["price", "quantity", "coupon", "refund", "approval", "invite", "quota", "state machine"],
+  "signals": ["client controls a value the server should enforce", "workflow step can be skipped or repeated", "negative/zero/overflow values accepted", "role or sequence changes the outcome"],
+  "safe_tests": ["use self-owned test accounts and synthetic products", "change one business value or state transition", "avoid real money, real users, and irreversible actions", "record expected versus actual state"],
+  "confirm": ["a real business invariant is violated", "benefit or unauthorized state is reproducible with test data", "impact is quantified without causing business harm"],
+  "false_positives": ["intended promotion", "admin override", "client-side display only", "eventual consistency"],
+  "approval": "required",
+  "impact": ["financial loss", "integrity", "unauthorized benefit"]
+}

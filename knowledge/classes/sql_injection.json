@@ -1,0 +1,13 @@
+{
+  "id": "sql_injection",
+  "name": "SQL injection",
+  "aliases": ["SQLi", "SQL", "database injection"],
+  "priority": "high",
+  "surfaces": ["query parameter", "form field", "JSON value", "sort/order field", "filter", "report/export parameter"],
+  "signals": ["type or syntax error changes with input", "boolean or arithmetic response differences", "stable time difference", "database-specific error text"],
+  "safe_tests": ["record one parameter baseline", "use one benign syntax or arithmetic probe", "compare a true/false or arithmetic pair", "low concurrency; stop on errors or latency"],
+  "confirm": ["deterministic difference proves server-side query influence", "reproducible with same test account", "no table dumping, file reads, command execution, or stacked queries"],
+  "false_positives": ["WAF or generic error page", "caching or dynamic content", "client-side validation", "natural latency variation"],
+  "approval": "required",
+  "impact": ["confidentiality", "integrity", "authentication bypass"]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "deserialization",
+  "name": "Unsafe deserialization",
+  "aliases": ["Java deserialization", "PHP object injection", "pickle", "serialized object"],
+  "priority": "critical",
+  "surfaces": ["cookies", "hidden fields", "API blobs", "RPC protocols", "file import", "cache/session objects"],
+  "signals": ["serialized markers or class names", "base64 or binary object format", "parser-specific errors", "type or class resolution behavior"],
+  "safe_tests": ["identify the format without modifying production data", "use an approved harmless marker object", "prove the target enters the deserialization path", "never use gadget chains, shells, files, or persistence"],
+  "confirm": ["target actually parses the serialized object", "controlled benign behavior proves the defect", "evidence stops before code execution or sensitive access"],
+  "false_positives": ["raw binary file upload unrelated to deserialization", "parser rejection", "client-side serialization only", "generic 500 error"],
+  "approval": "required",
+  "impact": ["remote code execution", "integrity", "confidentiality"]
+}

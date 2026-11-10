@@ -1,0 +1,13 @@
+{
+  "id": "auth_session",
+  "name": "Session and token flaws",
+  "aliases": ["session", "JWT", "cookie", "token", "logout", "session fixation"],
+  "priority": "high",
+  "surfaces": ["Cookie", "Authorization header", "refresh token", "remember-me", "password reset", "mobile session"],
+  "signals": ["token valid after logout or password change", "weak or missing expiry", "audience or issuer not enforced", "session accepted across roles", "sensitive token claims"],
+  "safe_tests": ["decode tokens locally without modifying them", "compare expiry, revocation, and role claims with self-owned accounts", "test invalidation after logout and password change", "do not forge tokens against real accounts"],
+  "confirm": ["revoked or unrelated session still performs a protected action", "defect reproducible and attributable to the target", "minimum required data only"],
+  "false_positives": ["intentional remember-me", "short-lived cache", "client-only token storage without server impact", "action still authorized"],
+  "approval": "required",
+  "impact": ["account takeover", "confidentiality", "integrity"]
+}

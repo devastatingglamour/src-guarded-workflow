@@ -1,0 +1,17 @@
+{
+  "name": "codex-local-src",
+  "plugins": [
+    {
+      "name": "src-guarded-workflow",
+      "source": {
+        "source": "local",
+        "path": "../../"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Security"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "tenant_isolation",
+  "name": "Tenant isolation failure",
+  "aliases": ["multi-tenant", "tenant boundary", "organization isolation", "cross-tenant"],
+  "priority": "critical",
+  "surfaces": ["organization ID", "tenant slug", "team membership", "exports", "webhooks", "search", "invitations"],
+  "signals": ["other organization metadata appears", "shared identifiers resolve across tenants", "role checks exist but tenant checks do not", "list or search returns unexplained records"],
+  "safe_tests": ["use approved test tenants and users", "compare tenant-owned and non-owned test objects", "prefer metadata-only access first", "stop if production tenant data appears"],
+  "confirm": ["tenant A test user reaches tenant B test object", "boundary failure stable and attributable", "evidence contains only synthetic test data"],
+  "false_positives": ["shared public resource", "support/admin role", "cached aggregate", "tenant ID returned without object access"],
+  "approval": "required",
+  "impact": ["confidentiality", "cross-tenant breach", "compliance"]
+}

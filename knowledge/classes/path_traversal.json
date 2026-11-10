@@ -1,0 +1,13 @@
+{
+  "id": "path_traversal",
+  "name": "Path traversal / LFI",
+  "aliases": ["path traversal", "directory traversal", "LFI", "file read"],
+  "priority": "high",
+  "surfaces": ["download", "preview", "template", "language pack", "backup", "import/export"],
+  "signals": ["filename or path changes file selection", "error reveals filesystem path", "content length differs with traversal", "download endpoint accepts arbitrary names"],
+  "safe_tests": ["use a synthetic test file and approved test account", "compare one benign path variation against baseline", "avoid reading real system or user files", "stop at a controlled file marker"],
+  "confirm": ["controlled test file is read or a safe path boundary is crossed", "result reproducible and not cached", "no sensitive file content is retained"],
+  "false_positives": ["normalization or rejection", "CDN mapping", "static path with no user control", "generic 404"],
+  "approval": "required",
+  "impact": ["confidentiality", "source exposure", "remote execution chain"]
+}

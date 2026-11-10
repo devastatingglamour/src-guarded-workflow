@@ -1,0 +1,13 @@
+{
+  "id": "command_injection",
+  "name": "Command injection",
+  "aliases": ["OS command", "shell injection", "RCE"],
+  "priority": "critical",
+  "surfaces": ["file conversion", "image tools", "backup/export", "network diagnostics", "webhook processing", "admin utilities"],
+  "signals": ["timing changes with shell metacharacters", "error text from underlying process", "output includes local command results", "callback from test marker"],
+  "safe_tests": ["use a harmless marker and a program-approved callback", "prefer parser influence or stable timing over shell execution", "do not spawn shells, read files, persist, or move laterally", "explicit approval and strict timeout"],
+  "confirm": ["controlled marker or timing difference proves command influence", "reproducible and limited to approved asset", "stop immediately after smallest capability proof"],
+  "false_positives": ["ordinary processing delay", "client-side execution", "WAF error", "input not reaching process"],
+  "approval": "required",
+  "impact": ["remote code execution", "confidentiality", "integrity", "availability"]
+}

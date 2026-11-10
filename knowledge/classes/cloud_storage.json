@@ -1,0 +1,13 @@
+{
+  "id": "cloud_storage",
+  "name": "Cloud storage / signed URL exposure",
+  "aliases": ["S3", "OSS", "bucket", "signed URL", "object storage", "ACL"],
+  "priority": "high",
+  "surfaces": ["object URLs", "download links", "backup paths", "public buckets", "STS tokens", "CDN origins"],
+  "signals": ["bucket listing or object metadata exposed", "signed URL scope is too broad", "ACL allows unintended read/write", "storage hostname appears in client assets"],
+  "safe_tests": ["use synthetic test objects", "test one object URL or permission boundary", "avoid listing or downloading production objects", "stop at the first controlled read/write proof"],
+  "confirm": ["a test object is read or modified beyond authorization", "storage permission issue is reproducible", "no user or production data is retained"],
+  "false_positives": ["intentionally public assets", "CDN cache", "read-only public documentation", "temporary URL working as designed"],
+  "approval": "required",
+  "impact": ["data exposure", "integrity", "supply-chain risk"]
+}

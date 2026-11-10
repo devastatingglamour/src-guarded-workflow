@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SRC Finding",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "finding_id", "program", "title", "asset", "method", "vulnerability_class", "status", "severity", "confidence", "in_scope", "human_verified", "ai_generated", "data_sensitivity", "real_user_data_approved", "summary", "preconditions", "reproduction_steps", "evidence", "impact", "remediation"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "finding_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,80}$"},
+    "program": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 8, "maxLength": 200},
+    "asset": {"type": "string", "minLength": 1},
+    "method": {"enum": ["GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH", "DELETE"]},
+    "vulnerability_class": {"type": "string", "minLength": 1},
+    "status": {"enum": ["candidate", "verified", "rejected"]},
+    "severity": {"enum": ["info", "low", "medium", "high", "critical"]},
+    "confidence": {"enum": ["low", "medium", "high"]},
+    "in_scope": {"type": "boolean"},
+    "human_verified": {"type": "boolean"},
+    "ai_generated": {"type": "boolean"},
+    "data_sensitivity": {"enum": ["none", "synthetic", "test_account", "real_user"]},
+    "real_user_data_approved": {"type": "boolean"},
+    "summary": {"type": "string", "minLength": 1},
+    "preconditions": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "reproduction_steps": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "path", "description", "timestamp"],
+        "properties": {
+          "type": {"enum": ["request_response", "screenshot", "log", "note"]},
+          "path": {"type": "string", "minLength": 1},
+          "description": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"},
+          "timestamp": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "impact": {"type": "string", "minLength": 1},
+    "remediation": {"type": "string", "minLength": 1},
+    "reviewer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "notes"],
+      "properties": {
+        "reviewer": {"type": "string"},
+        "status": {"enum": ["pending", "passed", "blocked"]},
+        "notes": {"type": "string"}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "verified"}}, "required": ["status"]},
+      "then": {
+        "properties": {
+          "human_verified": {"const": true},
+          "in_scope": {"const": true},
+          "confidence": {"const": "high"},
+          "preconditions": {"minItems": 1},
+          "reproduction_steps": {"minItems": 1},
+          "evidence": {"minItems": 1},
+          "impact": {"minLength": 1}
+        }
+      }
+    }
+  ]
+}

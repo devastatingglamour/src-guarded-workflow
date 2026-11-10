@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SRC Scope Configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "program", "authorization_confirmed", "scope", "rate_limit", "data", "ai", "approval"],
+  "properties": {
+    "version": {"const": 1},
+    "program": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "platform", "policy_url", "contact"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "platform": {"type": "string", "minLength": 1},
+        "policy_url": {"type": "string", "format": "uri"},
+        "contact": {"type": "string", "minLength": 1},
+        "authorization_source": {"type": "string"},
+        "test_window": {"type": "string"}
+      }
+    },
+    "authorization_confirmed": {"type": "boolean"},
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_hosts", "allowed_ports", "allowed_paths", "allowed_methods", "denied_hosts", "denied_paths"],
+      "properties": {
+        "allowed_hosts": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "denied_hosts": {"type": "array", "items": {"type": "string"}},
+        "allowed_ports": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": 1, "maximum": 65535}},
+        "allowed_paths": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^/.*"}},
+        "denied_paths": {"type": "array", "items": {"type": "string", "pattern": "^/.*"}},
+        "allowed_methods": {"type": "array", "minItems": 1, "items": {"enum": ["GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH", "DELETE"]}}
+      }
+    },
+    "rate_limit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requests_per_second", "max_requests_per_run", "timeout_seconds", "max_redirects"],
+      "properties": {
+        "requests_per_second": {"type": "number", "exclusiveMinimum": 0},
+        "max_requests_per_run": {"type": "integer", "minimum": 1},
+        "timeout_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "max_redirects": {"type": "integer", "minimum": 0, "maximum": 10}
+      }
+    },
+    "accounts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "role", "approved"],
+        "properties": {
+          "label": {"type": "string", "minLength": 1},
+          "role": {"type": "string", "minLength": 1},
+          "approved": {"type": "boolean"},
+          "notes": {"type": "string"}
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["save_response_body_default", "redact_headers", "allow_real_user_data", "retain_evidence_days"],
+      "properties": {
+        "save_response_body_default": {"type": "boolean"},
+        "redact_headers": {"type": "array", "items": {"type": "string"}},
+        "allow_real_user_data": {"type": "boolean"},
+        "retain_evidence_days": {"type": "integer", "minimum": 0}
+      }
+    },
+    "ai": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["autonomous_execution_allowed", "human_verification_required"],
+      "properties": {
+        "autonomous_execution_allowed": {"const": false},
+        "human_verification_required": {"const": true}
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["token_env", "required_operations"],
+      "properties": {
+        "token_env": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"},
+        "required_operations": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

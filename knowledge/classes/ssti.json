@@ -1,0 +1,13 @@
+{
+  "id": "ssti",
+  "name": "Server-side template injection",
+  "aliases": ["SSTI", "template injection"],
+  "priority": "high",
+  "surfaces": ["name fields", "email templates", "preview", "PDF/export", "notification content", "admin configuration"],
+  "signals": ["template syntax evaluated", "arithmetic marker changes output", "template errors reveal engine", "sandbox behavior differs"],
+  "safe_tests": ["use a harmless arithmetic or string marker in a self-owned field", "compare literal versus evaluated output", "do not use filesystem, process, or command expressions", "stop once evaluation is proven"],
+  "confirm": ["server evaluates the template expression", "result stable and tied to tested parameter", "no command execution or data exfiltration attempted"],
+  "false_positives": ["client-side templating", "documentation content", "input echoed without evaluation", "email client rendering"],
+  "approval": "required",
+  "impact": ["server-side execution risk", "confidentiality", "integrity"]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "cache_host_header",
+  "name": "Cache poisoning / host header issues",
+  "aliases": ["cache poisoning", "host header injection", "web cache deception", "X-Forwarded-Host"],
+  "priority": "high",
+  "surfaces": ["CDN cache", "password reset links", "absolute URLs", "redirects", "proxy headers", "static assets"],
+  "signals": ["cache key omits a user-controlled header", "host header changes generated links", "cached response differs by unkeyed input", "proxy treats headers inconsistently"],
+  "safe_tests": ["use a unique cache-busting test path and self-owned account", "test one header at a time", "never poison shared production cache", "stop if other users' responses appear"],
+  "confirm": ["a controlled test response is cached and replayed to another test context", "impact is demonstrated without affecting real users", "cache can be safely purged"],
+  "false_positives": ["cache correctly varies by host", "per-user private cache", "origin normalization", "CDN strips header"],
+  "approval": "required",
+  "impact": ["XSS", "credential theft", "availability", "integrity"]
+}

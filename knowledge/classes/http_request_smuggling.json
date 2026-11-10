@@ -1,0 +1,13 @@
+{
+  "id": "http_request_smuggling",
+  "name": "HTTP request smuggling",
+  "aliases": ["request smuggling", "CL.TE", "TE.CL", "desync"],
+  "priority": "critical",
+  "surfaces": ["reverse proxy", "load balancer", "CDN origin", "HTTP/1.1 parser boundary", "connection reuse"],
+  "signals": ["proxy and origin disagree on request framing", "timing or connection behavior differs after a crafted boundary", "unexpected response ordering", "cache or auth boundary affected"],
+  "safe_tests": ["require explicit approval and a controlled test endpoint", "do not run generic desync payloads against production", "prefer provider-provided test or lab environments", "stop immediately on connection or cache anomalies"],
+  "confirm": ["controlled parser disagreement is proven without harming users", "impact is limited to approved test traffic", "no shared cache or other users are affected"],
+  "false_positives": ["timeouts or keep-alive behavior", "WAF normalization", "single-server parser", "unstable network"],
+  "approval": "required",
+  "impact": ["auth bypass", "cache poisoning", "request hijacking", "availability"]
+}

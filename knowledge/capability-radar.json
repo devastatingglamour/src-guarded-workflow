@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "source": {
+    "name": "SecSkills",
+    "repository": "https://github.com/DaoYiSec/SecSkills",
+    "reviewed_archive_commit": "1867eb6",
+    "license": "Apache-2.0",
+    "role": "Curated capability index; not an endorsement or auto-install list"
+  },
+  "categories": [
+    {
+      "id": "skill-supply-chain-audit",
+      "need_when": ["installing a third-party Skill", "reviewing a plugin or MCP package", "prompt instructions or scripts come from an untrusted source"],
+      "preferred_action": "built_in_static_audit",
+      "built_in_tools": ["src_skill_audit"],
+      "evaluation": ["dangerous execution", "approval or sandbox bypass", "secret access", "outbound data flow", "prompt injection", "obfuscation", "declared-versus-actual behavior"]
+    },
+    {
+      "id": "agentic-workflow-security",
+      "need_when": ["the target is an agent, chatbot, RAG system, multi-agent workflow, or MCP-enabled application"],
+      "preferred_action": "static_mapping_then_synthetic_boundary_tests",
+      "built_in_tools": ["src_hunt_route", "src_vuln_playbook", "src_clueboard"],
+      "evaluation": ["workflow graph", "tool inventory", "MCP inventory", "trust boundaries", "tool approval", "memory and retrieval poisoning", "side-effect controls"]
+    },
+    {
+      "id": "state-space-search",
+      "need_when": ["the next path is unclear", "multiple findings can enable a chain", "the work needs explicit facts and intents across sessions"],
+      "preferred_action": "fact_intent_hint_graph",
+      "built_in_tools": ["src_clueboard"],
+      "evaluation": ["confirmed fact provenance", "one actionable intent at a time", "human hints", "dead-end and rejection memory"]
+    },
+    {
+      "id": "deterministic-oracle",
+      "need_when": ["a model-produced signal looks plausible but impact is not proven"],
+      "preferred_action": "independent_replay_or_human_verified_evidence",
+      "built_in_tools": ["src_validate_finding"],
+      "evaluation": ["model cannot self-award verified", "baseline and attack replay", "independent expected result", "redacted proof capsule"]
+    },
+    {
+      "id": "script-plus-llm-analysis",
+      "need_when": ["coverage matters more than creativity", "large source or artifact inventories need consistent enumeration"],
+      "preferred_action": "deterministic_enumeration_then_llm_triage",
+      "built_in_tools": ["src_js_inventory", "src_import_har", "src_vuln_playbook"],
+      "evaluation": ["script output is raw leads", "LLM filters context and false positives", "fallback if scripts fail", "coverage report"]
+    },
+    {
+      "id": "mobile-static-audit",
+      "need_when": ["the authorized artifact is an APK, IPA, or mini-program package"],
+      "preferred_action": "manual_or_separate_reviewed_skill",
+      "built_in_tools": [],
+      "evaluation": ["artifact provenance", "static-only default", "no credential validation", "separate toolchain and authorization"]
+    },
+    {
+      "id": "binary-reverse-engineering",
+      "need_when": ["the authorized artifact is a native binary or protected mobile package"],
+      "preferred_action": "manual_or_separate_reviewed_skill",
+      "built_in_tools": [],
+      "evaluation": ["isolated VM", "sample handling", "anti-analysis limits", "no persistence"]
+    },
+    {
+      "id": "code-audit",
+      "need_when": ["authorized source code is available and black-box testing is insufficient"],
+      "preferred_action": "manual_or_separate_reviewed_skill",
+      "built_in_tools": [],
+      "evaluation": ["source-to-sink trace", "auth model", "sink confirmation", "dynamic validation boundary"]
+    }
+  ],
+  "selection_rules": [
+    "Prefer the existing built-in guarded tool over adding another autonomous platform.",
+    "Do not install a third-party Skill before src_skill_audit and human review.",
+    "External projects are candidates, not trusted dependencies.",
+    "A capability that adds a new network, credential, or tool-execution boundary requires explicit approval.",
+    "Never replace the local evidence gate with a vendor's claimed zero-false-positive result."
+  ]
+}

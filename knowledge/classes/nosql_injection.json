@@ -1,0 +1,13 @@
+{
+  "id": "nosql_injection",
+  "name": "NoSQL injection",
+  "aliases": ["NoSQL", "MongoDB injection", "operator injection"],
+  "priority": "high",
+  "surfaces": ["JSON body", "login", "search filters", "query objects", "GraphQL variables"],
+  "signals": ["array/object input changes query behavior", "operator-like fields affect results", "auth result changes with object shape", "error reveals query semantics"],
+  "safe_tests": ["use one test account and one JSON field", "compare scalar versus structured minimal input", "avoid returning records", "do not enumerate collections or extract secrets"],
+  "confirm": ["structured input changes server-side query behavior reproducibly", "test-only auth/filter bypass demonstrated", "no real records extracted"],
+  "false_positives": ["input validation rejection", "client-side filtering", "cached response", "expected search syntax"],
+  "approval": "required",
+  "impact": ["authentication bypass", "confidentiality", "integrity"]
+}

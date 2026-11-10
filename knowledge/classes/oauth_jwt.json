@@ -1,0 +1,13 @@
+{
+  "id": "oauth_jwt",
+  "name": "OAuth and JWT flaws",
+  "aliases": ["OAuth", "OIDC", "JWT", "redirect_uri", "PKCE", "state"],
+  "priority": "high",
+  "surfaces": ["authorization endpoint", "redirect URI", "state", "PKCE", "token exchange", "JWT claims", "client registration"],
+  "signals": ["redirect URI validation is loose", "state is missing or not bound", "token audience/issuer ignored", "scope escalation", "JWT algorithm or key handling is weak"],
+  "safe_tests": ["use self-owned test accounts and a registered test client", "change one OAuth parameter at a time", "inspect JWT locally without forging production tokens", "do not involve third-party accounts"],
+  "confirm": ["an OAuth/JWT control failure enables a concrete unauthorized action", "reproducible with test identities", "no real user tokens are used"],
+  "false_positives": ["client-side validation", "intentional public client", "expected scope", "token invalidated elsewhere"],
+  "approval": "required",
+  "impact": ["account takeover", "scope escalation", "confidentiality"]
+}

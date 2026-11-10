@@ -1,0 +1,13 @@
+{
+  "id": "ssrf",
+  "name": "Server-side request forgery",
+  "aliases": ["SSRF", "URL fetch", "webhook SSRF", "image fetch", "PDF fetch"],
+  "priority": "high",
+  "surfaces": ["URL parameters", "webhooks", "imports", "image/avatar fetch", "link preview", "PDF generation", "remote source"],
+  "signals": ["server fetches a supplied URL", "DNS or callback occurs from target", "URL validation differs by scheme or redirect", "timing or error reflects remote fetch"],
+  "safe_tests": ["use a program-approved callback endpoint with a unique token", "test one URL field and one redirect at a time", "do not probe internal IPs or cloud metadata", "stop at callback correlation"],
+  "confirm": ["unique callback is received from the target's server-side request", "behavior reproducible and tied to tested field", "no internal scanning or credential access"],
+  "false_positives": ["client-side fetch", "third-party proxy", "cached image", "URL merely stored without fetch"],
+  "approval": "required",
+  "impact": ["internal reachability", "confidentiality", "cloud credential exposure"]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "open_redirect",
+  "name": "Open redirect",
+  "aliases": ["redirect", "return URL", "next parameter", "callback"],
+  "priority": "medium",
+  "surfaces": ["login return URL", "OAuth callback", "logout", "short links", "share links", "payment return"],
+  "signals": ["Location header follows user input", "client-side redirect uses a supplied URL", "validation depends on substring or prefix", "scheme changes accepted"],
+  "safe_tests": ["use a benign owned destination or an in-scope test path", "change one URL parameter at a time", "inspect Location and browser behavior", "do not redirect to third-party or production users"],
+  "confirm": ["controlled external or unintended destination is reached", "redirect is server-driven or clearly exploitable", "impact is tied to a real authentication or trust flow"],
+  "false_positives": ["allowlisted destination", "relative path only", "client-side router without trust impact", "static link"],
+  "approval": "required",
+  "impact": ["phishing", "OAuth token leakage", "trust boundary"]
+}

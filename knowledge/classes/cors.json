@@ -1,0 +1,13 @@
+{
+  "id": "cors",
+  "name": "CORS misconfiguration",
+  "aliases": ["CORS", "cross-origin resource sharing", "origin reflection"],
+  "priority": "medium",
+  "surfaces": ["API responses", "authenticated JSON", "admin endpoints", "file downloads", "GraphQL"],
+  "signals": ["arbitrary Origin reflected", "credentials allowed with broad origin", "null origin accepted", "subdomain or suffix mistake"],
+  "safe_tests": ["compare allowed and disallowed Origin headers", "use an approved test origin", "inspect only response headers", "do not read another user's data"],
+  "confirm": ["a hostile origin can read authenticated sensitive data", "CORS policy is actually enforced by the browser", "impact requires real data access, not just wildcard header"],
+  "false_positives": ["public data", "no credentials", "origin allowlist works", "server-side request without browser context"],
+  "approval": "conditional",
+  "impact": ["confidentiality", "cross-origin data theft"]
+}

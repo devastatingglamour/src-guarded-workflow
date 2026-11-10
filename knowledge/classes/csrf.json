@@ -1,0 +1,13 @@
+{
+  "id": "csrf",
+  "name": "Cross-site request forgery",
+  "aliases": ["CSRF", "state changing request", "anti-CSRF"],
+  "priority": "medium",
+  "surfaces": ["profile changes", "email/password change", "permissions", "payment", "admin actions", "API writes"],
+  "signals": ["state-changing request lacks an unpredictable token", "cookie-only auth with no SameSite protection", "token not bound to session", "cross-origin request succeeds"],
+  "safe_tests": ["use only self-owned test accounts and reversible actions", "capture the normal request and compare protection mechanisms", "test one harmless state change", "never target real users or irreversible actions"],
+  "confirm": ["cross-site request changes state in the victim's test session", "action has real security impact", "no user data or business data is harmed"],
+  "false_positives": ["logout-only CSRF", "SameSite or origin protection", "token required by a custom header", "action requires re-authentication"],
+  "approval": "required",
+  "impact": ["integrity", "account takeover", "unauthorized action"]
+}

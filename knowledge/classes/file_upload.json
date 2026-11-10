@@ -1,0 +1,13 @@
+{
+  "id": "file_upload",
+  "name": "Unsafe file upload",
+  "aliases": ["upload", "attachment", "avatar", "import", "file type bypass"],
+  "priority": "high",
+  "surfaces": ["avatar", "attachment", "document import", "CSV import", "archive extraction", "media processing"],
+  "signals": ["extension or MIME mismatch accepted", "file stored in web-accessible path", "parser processes active content", "archive traversal or decompression behavior", "filename controls path"],
+  "safe_tests": ["use a harmless test file with a unique marker", "test one extension/MIME change at a time", "never upload a webshell or executable payload", "verify storage and processing behavior with test data only"],
+  "confirm": ["unexpected file handling or execution is proven", "impact is demonstrated without persistence or real users", "test object is isolated and removable"],
+  "false_positives": ["forced download", "CDN isolation", "server-side conversion to safe format", "AV quarantine"],
+  "approval": "required",
+  "impact": ["remote execution", "storage abuse", "integrity"]
+}

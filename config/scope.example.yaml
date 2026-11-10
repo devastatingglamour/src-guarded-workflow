@@ -1,0 +1,81 @@
+version: 1
+
+program:
+  name: example-src
+  platform: example-platform
+  policy_url: https://example.com/security-policy
+  contact: security@example.com
+  authorization_source: replace-with-program-page-or-written-authorization
+  test_window: 2026-01-01T00:00:00Z/2026-01-31T23:59:59Z
+
+authorization_confirmed: false
+
+scope:
+  allowed_hosts:
+    - example.com
+    - "*.example.com"
+  denied_hosts:
+    - admin.example.com
+  allowed_ports:
+    - 443
+    - 80
+  allowed_paths:
+    - /
+  denied_paths:
+    - /admin
+    - /internal
+  allowed_methods:
+    - GET
+    - HEAD
+    - OPTIONS
+
+rate_limit:
+  requests_per_second: 0.5
+  max_requests_per_run: 200
+  timeout_seconds: 15
+  max_redirects: 3
+
+accounts:
+  - label: tester-standard
+    role: standard
+    approved: true
+    notes: use only an account created for this program
+
+data:
+  save_response_body_default: false
+  redact_headers:
+    - cookie
+    - set-cookie
+    - authorization
+    - proxy-authorization
+    - x-api-key
+    - x-auth-token
+    - csrf-token
+  allow_real_user_data: false
+  retain_evidence_days: 7
+
+ai:
+  autonomous_execution_allowed: false
+  human_verification_required: true
+
+approval:
+  token_env: SRC_APPROVAL_TOKEN
+  required_operations:
+    - POST
+    - PUT
+    - PATCH
+    - DELETE
+    - auth_flow
+    - ssrf
+    - file_upload
+    - redirect_chain
+    - deserialization
+    - cross_tenant
+    - credential_use
+    - exploit_chain
+    - js_inventory
+    - path_scan
+    - port_scan
+    - surface_crawl
+    - report_submission
+

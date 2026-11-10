@@ -1,0 +1,13 @@
+{
+  "id": "agentic_workflow_security",
+  "name": "Agentic workflow and MCP boundary review",
+  "aliases": ["agentic workflow", "MCP security", "multi-agent", "RAG security", "tool permissions", "prompt hardening", "agent supply chain"],
+  "priority": "high",
+  "surfaces": ["workflow graph", "system prompts", "tool definitions", "MCP servers", "connectors", "inter-agent messages", "RAG documents", "memory", "code execution tools"],
+  "signals": ["agent has tools or data broader than its stated task", "untrusted content reaches a privileged tool", "tool approval can be skipped", "inter-agent messages are trusted without provenance", "MCP server source or permissions are unclear", "retrieved content can override instructions", "workflow can send data to an unapproved destination"],
+  "safe_tests": ["map the workflow, tools, data stores, and outbound destinations first", "inspect manifests, prompts, and MCP definitions statically", "use synthetic markers and self-owned test data", "test one instruction or tool boundary at a time", "do not trigger payments, messaging, deletion, external side effects, or real credential use"],
+  "confirm": ["the workflow crosses a real trust or permission boundary", "a synthetic marker proves unauthorized tool or data access", "the result is attributable to the agent design rather than the test harness", "human review confirms the impact and safe reproduction"],
+  "false_positives": ["expected sandboxed read-only tool", "public or intentionally shared data", "model refusal without a boundary bypass", "prompt text that never reaches a privileged decision", "test-only secret that has no production authority"],
+  "approval": "required",
+  "impact": ["data disclosure", "tool abuse", "unauthorized actions", "supply-chain compromise", "sandbox or approval bypass"]
+}

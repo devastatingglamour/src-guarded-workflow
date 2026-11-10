@@ -1,0 +1,13 @@
+{
+  "id": "graphql",
+  "name": "GraphQL authorization and abuse",
+  "aliases": ["GraphQL", "introspection", "BOLA GraphQL", "node ID"],
+  "priority": "high",
+  "surfaces": ["queries", "mutations", "node IDs", "aliases", "fragments", "subscriptions", "batch requests"],
+  "signals": ["schema or field suggestions reveal hidden operations", "node ID bypasses authorization", "mutation accepts an unauthorized object", "aliases or batching bypass rate limits"],
+  "safe_tests": ["collect schema only if program rules allow", "use two test roles and one operation", "test a single node ID or mutation", "avoid deep, recursive, or high-complexity queries"],
+  "confirm": ["unauthorized field or mutation succeeds", "effect is attributable to GraphQL authorization", "no data beyond the test object is read"],
+  "false_positives": ["public fields", "admin role", "introspection disabled", "client-side gating"],
+  "approval": "required",
+  "impact": ["confidentiality", "integrity", "tenant boundary"]
+}
