@@ -16,7 +16,7 @@ fi
 mkdir -p "${SKILL_TARGET}" "${PLUGIN_TARGET}" "${MARKETPLACE_ROOT}"
 cp "${SOURCE}/skills/src-bug-bounty/SKILL.md" "${SKILL_TARGET}/"
 cp -R "${SOURCE}/skills/src-bug-bounty/references" "${SKILL_TARGET}/"
-for item in plugin.json mcp.json .codex-plugin skills scripts server schemas templates config knowledge requirements.txt README.md AGENTS.md LICENSE THIRD_PARTY_NOTICES.md; do
+for item in plugin.json mcp.json .codex-plugin skills scripts server schemas templates config knowledge requirements.txt README.md CHANGELOG.md AGENTS.md LICENSE THIRD_PARTY_NOTICES.md; do
   if [[ -e "${SOURCE}/${item}" ]]; then
     cp -R "${SOURCE}/${item}" "${PLUGIN_TARGET}/"
   fi

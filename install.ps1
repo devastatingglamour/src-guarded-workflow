@@ -26,7 +26,7 @@ New-Item -ItemType Directory -Path $PluginTarget -Force | Out-Null
 Copy-Item -LiteralPath (Join-Path $Source 'skills\src-bug-bounty\SKILL.md') -Destination $SkillTarget -Force
 Copy-Item -LiteralPath (Join-Path $Source 'skills\src-bug-bounty\references') -Destination $SkillTarget -Recurse -Force
 
-$items = @('plugin.json', 'mcp.json', '.codex-plugin', 'skills', 'scripts', 'server', 'schemas', 'templates', 'config', 'knowledge', 'requirements.txt', 'README.md', 'AGENTS.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md')
+$items = @('plugin.json', 'mcp.json', '.codex-plugin', 'skills', 'scripts', 'server', 'schemas', 'templates', 'config', 'knowledge', 'requirements.txt', 'README.md', 'CHANGELOG.md', 'AGENTS.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md')
 foreach ($item in $items) {
     $from = Join-Path $Source $item
     if (Test-Path $from) {
