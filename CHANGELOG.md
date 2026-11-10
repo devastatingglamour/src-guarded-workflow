@@ -10,6 +10,11 @@ All notable changes to `src-guarded-workflow` are documented here.
 - Flattened the default route response to one best match to avoid MCP client timeouts.
 - Added server-side MCP call timing metadata without logging request content or secrets.
 
+### Tooling
+
+- Added `scripts/build_release.ps1` for deterministic release packaging.
+- Added a GitHub Actions tag workflow that tests, builds, and publishes migration and portable ZIP assets.
+
 ## [0.7.1] - 2026-11-10
 
 ### Fixed
